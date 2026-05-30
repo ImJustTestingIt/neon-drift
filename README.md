@@ -23,7 +23,9 @@ You can also open `index.html` directly in a browser.
 
 The admin passphrase is not committed to the repository. Set a GitHub Actions repository secret named `NEON_DRIFT_ADMIN_SECRET`, then run the Pages workflow. The deploy step publishes only a SHA-256 hash to `admin-config.js`.
 
-There is no default admin password. For local admin testing, create an uncommitted `admin-config.js` next to `index.html`:
+There is no default admin password. The committed `admin-config.js` is only a fallback placeholder so local/direct runs do not 404 while loading the admin config script.
+
+For local admin testing, replace the placeholder hash in an uncommitted local copy of `admin-config.js`:
 
 ```js
 window.NeonDriftAdminConfig = { secretHash: "<sha256-of-your-passphrase>" };
@@ -76,5 +78,6 @@ The GitHub Pages workflow runs these steps:
 
 - `index.html`: complete game, styles, diagnostics overlay, and JavaScript.
 - `admin.js`: hidden admin panel and game-control UI.
+- `admin-config.js`: fallback admin config placeholder, overwritten by the Pages workflow when a secret is configured.
 - `.github/workflows/pages.yml`: GitHub Pages deployment workflow.
 - `.nojekyll`: serves the static game files exactly as written.
