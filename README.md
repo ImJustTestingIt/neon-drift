@@ -35,6 +35,12 @@ The admin login uses Web Crypto SHA-256 when available and falls back to a local
 
 Because this is a static GitHub Pages game, the admin panel is suitable for local game controls and lightweight moderation settings. Do not put truly sensitive server-side powers behind this client-only panel.
 
+## Paper Or CTF Play
+
+For paper, tabletop, or CTF-style sessions, do not reuse the admin passphrase as a hand-checkable answer. Keep the GM answer key outside the public repository, or use a challenge-only code that has no admin privileges and is safe to reveal after the session.
+
+If a GM needs to check an answer by hand, use an out-of-band answer key or a short printed challenge phrase. Do not add a reversible verifier such as base64 to the website as a fallback login path, because anyone reading the public files can recover it.
+
 ## Admin Actions
 
 After unlocking the admin panel, these actions are available:
