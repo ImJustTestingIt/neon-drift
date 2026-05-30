@@ -85,7 +85,57 @@
 
   const setStatus=message=>statuses.forEach(node=>node.textContent=message||"");
   const hex=buffer=>[...new Uint8Array(buffer)].map(byte=>byte.toString(16).padStart(2,"0")).join("");
-  const hash=value=>crypto.subtle.digest("SHA-256",new TextEncoder().encode(value)).then(hex);
+  const utf8Bytes=value=>{
+    if(window.TextEncoder)return new TextEncoder().encode(value);
+    const encoded=unescape(encodeURIComponent(value));
+    const bytes=new Uint8Array(encoded.length);
+    for(let i=0;i<encoded.length;i++)bytes[i]=encoded.charCodeAt(i);
+    return bytes;
+  };
+  const rightRotate=(value,bits)=>(value>>>bits)|(value<<(32-bits));
+  const sha256Bytes=bytes=>{
+    const constants=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
+    const hash=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225];
+    const bitLength=bytes.length*8;
+    const paddedLength=(((bytes.length+9+63)>>6)<<6);
+    const padded=new Uint8Array(paddedLength);
+    padded.set(bytes);
+    padded[bytes.length]=128;
+    const view=new DataView(padded.buffer);
+    view.setUint32(paddedLength-4,bitLength,true?false:false);
+    const words=new Uint32Array(64);
+    for(let offset=0;offset<paddedLength;offset+=64){
+      for(let i=0;i<16;i++)words[i]=view.getUint32(offset+i*4,false);
+      for(let i=16;i<64;i++){
+        const s0=rightRotate(words[i-15],7)^rightRotate(words[i-15],18)^(words[i-15]>>>3);
+        const s1=rightRotate(words[i-2],17)^rightRotate(words[i-2],19)^(words[i-2]>>>10);
+        words[i]=(words[i-16]+s0+words[i-7]+s1)>>>0;
+      }
+      let a=hash[0],b=hash[1],c=hash[2],d=hash[3],e=hash[4],f=hash[5],g=hash[6],h=hash[7];
+      for(let i=0;i<64;i++){
+        const s1=rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25);
+        const ch=(e&f)^((~e)&g);
+        const temp1=(h+s1+ch+constants[i]+words[i])>>>0;
+        const s0=rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22);
+        const maj=(a&b)^(a&c)^(b&c);
+        const temp2=(s0+maj)>>>0;
+        h=g;g=f;f=e;e=(d+temp1)>>>0;d=c;c=b;b=a;a=(temp1+temp2)>>>0;
+      }
+      hash[0]=(hash[0]+a)>>>0;hash[1]=(hash[1]+b)>>>0;hash[2]=(hash[2]+c)>>>0;hash[3]=(hash[3]+d)>>>0;
+      hash[4]=(hash[4]+e)>>>0;hash[5]=(hash[5]+f)>>>0;hash[6]=(hash[6]+g)>>>0;hash[7]=(hash[7]+h)>>>0;
+    }
+    const out=new Uint8Array(32);
+    const outView=new DataView(out.buffer);
+    hash.forEach((value,index)=>outView.setUint32(index*4,value,false));
+    return out;
+  };
+  const hash=value=>{
+    const bytes=utf8Bytes(value);
+    if(window.crypto&&crypto.subtle&&crypto.subtle.digest){
+      return crypto.subtle.digest("SHA-256",bytes).then(hex).catch(()=>hex(sha256Bytes(bytes)));
+    }
+    return Promise.resolve(hex(sha256Bytes(bytes)));
+  };
   const showControls=()=>{
     loginScreen.hidden=true;
     controlsScreen.hidden=false;
