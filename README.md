@@ -31,6 +31,8 @@ For local admin testing, replace the placeholder hash in an uncommitted local co
 window.NeonDriftAdminConfig = { secretHash: "<sha256-of-your-passphrase>" };
 ```
 
+The admin login uses Web Crypto SHA-256 when available and falls back to a local JavaScript SHA-256 implementation when `crypto.subtle` is unavailable. It does not use base64 as a password fallback, because base64 is reversible and is not suitable for storing a passphrase verifier.
+
 Because this is a static GitHub Pages game, the admin panel is suitable for local game controls and lightweight moderation settings. Do not put truly sensitive server-side powers behind this client-only panel.
 
 ## Admin Actions
@@ -77,7 +79,7 @@ The GitHub Pages workflow runs these steps:
 ## Files
 
 - `index.html`: complete game, styles, diagnostics overlay, and JavaScript.
-- `admin.js`: hidden admin panel and game-control UI.
+- `admin.js`: hidden admin panel, local SHA-256 fallback, and game-control UI.
 - `admin-config.js`: fallback admin config placeholder, overwritten by the Pages workflow when a secret is configured.
 - `.github/workflows/pages.yml`: GitHub Pages deployment workflow.
 - `.nojekyll`: serves the static game files exactly as written.
