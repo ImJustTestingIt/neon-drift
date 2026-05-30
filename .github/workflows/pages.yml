@@ -23,6 +23,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Generate admin config
+        shell: bash
+        env:
+          ADMIN_SECRET: ${{ secrets.NEON_DRIFT_ADMIN_SECRET }}
+        run: |
+          if [ -n "$ADMIN_SECRET" ]; then
+            ADMIN_SECRET_HASH="$(printf '%s' "$ADMIN_SECRET" | sha256sum | awk '{print $1}')"
+          else
+            ADMIN_SECRET_HASH="__ADMIN_SECRET_HASH__"
+          fi
+          printf 'window.NeonDriftAdminConfig = { secretHash: "%s" };\n' "$ADMIN_SECRET_HASH" > admin-config.js
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
