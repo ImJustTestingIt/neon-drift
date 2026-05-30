@@ -102,7 +102,7 @@
     padded.set(bytes);
     padded[bytes.length]=128;
     const view=new DataView(padded.buffer);
-    view.setUint32(paddedLength-4,bitLength,true?false:false);
+    view.setUint32(paddedLength-4,bitLength,false);
     const words=new Uint32Array(64);
     for(let offset=0;offset<paddedLength;offset+=64){
       for(let i=0;i<16;i++)words[i]=view.getUint32(offset+i*4,false);
@@ -136,10 +136,14 @@
     }
     return Promise.resolve(hex(sha256Bytes(bytes)));
   };
+  const getGameState=()=>{
+    const api=game();
+    return api&&api.getState?api.getState():null;
+  };
   const showControls=()=>{
     loginScreen.hidden=true;
     controlsScreen.hidden=false;
-    const state=game()?.getState?.();
+    const state=getGameState();
     if(state){
       bestInput.value=state.best;
       multiplier.value=String(state.scoreMultiplier||1);
@@ -181,24 +185,29 @@
   });
 
   multiplier.addEventListener("change",()=>{
-    const value=game()?.setScoreMultiplier?.(multiplier.value);
+    const api=game();
+    const value=api&&api.setScoreMultiplier?api.setScoreMultiplier(multiplier.value):1;
     setStatus(`Score multiplier set to ${value}x.`);
   });
 
   shell.addEventListener("click",event=>{
-    const action=event.target?.dataset?.action;
-    if(!action||!game())return;
+    const target=event.target;
+    const action=target&&target.dataset?target.dataset.action:null;
+    const api=game();
+    if(!action||!api)return;
     if(action==="god"){
-      const enabled=game().setGodMode(!game().getState().godMode);
+      const state=api.getState();
+      const enabled=api.setGodMode(!state.godMode);
       setStatus(`God mode ${enabled?"enabled":"disabled"}.`);
     }
-    if(action==="boost"){game().refillBoost();setStatus("Overdrive refilled.")}
-    if(action==="score"){game().addScore(10000);setStatus("Added 10,000 score.")}
-    if(action==="best"){const value=game().setBest(bestInput.value);setStatus(`Best score saved as ${value}.`)}
-    if(action==="clear"){game().clearBest();bestInput.value=0;setStatus("Best score cleared.")}
-    if(action==="restart"){game().restart();setStatus("Run restarted.")}
+    if(action==="boost"){api.refillBoost();setStatus("Overdrive refilled.")}
+    if(action==="score"){api.addScore(10000);setStatus("Added 10,000 score.")}
+    if(action==="best"){const value=api.setBest(bestInput.value);setStatus(`Best score saved as ${value}.`)}
+    if(action==="clear"){api.clearBest();bestInput.value=0;setStatus("Best score cleared.")}
+    if(action==="restart"){api.restart();setStatus("Run restarted.")}
     if(action==="debug"){
-      const enabled=game().setDebug(!game().getState().debug);
+      const state=api.getState();
+      const enabled=api.setDebug(!state.debug);
       setStatus(`Debug mode ${enabled?"enabled":"disabled"}.`);
     }
   });
