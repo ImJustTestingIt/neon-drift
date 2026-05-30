@@ -68,6 +68,7 @@
           <button type="button" data-action="best">Save best</button>
           <button type="button" data-action="clear">Clear best</button>
           <button type="button" data-action="restart">Restart run</button>
+          <button type="button" data-action="debug">Debug mode</button>
         </div>
         <div class="admin-status" data-status></div>
       </div>
@@ -92,7 +93,7 @@
     if(state){
       bestInput.value=state.best;
       multiplier.value=String(state.scoreMultiplier||1);
-      setStatus(`Score ${state.score} | Boost ${state.boost}% | God ${state.godMode?"on":"off"}`);
+      setStatus(`Score ${state.score} | Boost ${state.boost}% | God ${state.godMode?"on":"off"} | Debug ${state.debug?"on":"off"}`);
     }
   };
   const open=()=>{
@@ -146,5 +147,9 @@
     if(action==="best"){const value=game().setBest(bestInput.value);setStatus(`Best score saved as ${value}.`)}
     if(action==="clear"){game().clearBest();bestInput.value=0;setStatus("Best score cleared.")}
     if(action==="restart"){game().restart();setStatus("Run restarted.")}
+    if(action==="debug"){
+      const enabled=game().setDebug(!game().getState().debug);
+      setStatus(`Debug mode ${enabled?"enabled":"disabled"}.`);
+    }
   });
 })();
