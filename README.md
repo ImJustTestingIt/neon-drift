@@ -54,6 +54,18 @@ After unlocking the admin panel, these actions are available:
 - Clear best: remove the locally stored best score.
 - Restart run: restart gameplay immediately.
 - Debug mode: toggle the local diagnostics overlay.
+- Library files: download or open the checked-in files under `assets/library/`.
+
+## Library Files
+
+The admin panel links to these checked-in library files:
+
+- `assets/library/customer.csv`: synthetic customer test data.
+- `assets/library/hipaa-health-intake-form/README.md`: setup and compliance-oriented hosting notes for the health intake form starter.
+- `assets/library/hipaa-health-intake-form/.env.example`: environment variable template for the intake form starter.
+- `assets/library/index.json`: machine-readable manifest for the library files.
+
+Note: the original workspace library objects were unavailable as full LFS contents in this execution environment, so this repository includes usable text copies rather than Git LFS pointer files.
 
 ## Debugging Performance
 
@@ -85,7 +97,8 @@ The GitHub Pages workflow runs these steps:
 ## Files
 
 - `index.html`: complete game, styles, diagnostics overlay, and JavaScript.
-- `admin.js`: hidden admin panel, local SHA-256 fallback, and game-control UI.
+- `admin.js`: hidden admin panel, local SHA-256 fallback, game-control UI, and library links.
 - `admin-config.js`: fallback admin config placeholder, overwritten by the Pages workflow when a secret is configured.
+- `assets/library/`: checked-in library files exposed from the admin panel.
 - `.github/workflows/pages.yml`: GitHub Pages deployment workflow.
 - `.nojekyll`: serves the static game files exactly as written.

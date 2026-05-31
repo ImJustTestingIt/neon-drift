@@ -1,0 +1,21 @@
+customer_id,first_name,last_name,email,phone,city,state,signup_date,segment,preferred_channel,last_purchase_date,lifetime_value,status
+CUST-1001,Avery,Johnson,avery.johnson@gmail.com,916-555-0142,Sacramento,CA,2025-01-14,Retail,Email,2026-05-12,1284.50,Active
+CUST-1002,Maya,Patel,maya.patel@outlook.com,415-555-0188,San Francisco,CA,2024-11-03,Enterprise,Phone,2026-04-28,8420.00,Active
+CUST-1003,Lucas,Nguyen,lucas.nguyen@icloud.com,503-555-0119,Portland,OR,2025-03-22,Small Business,Email,2026-03-30,2310.75,Active
+CUST-1004,Sofia,Martinez,sofia.martinez@yahoo.com,702-555-0194,Las Vegas,NV,2024-08-09,Retail,SMS,2026-05-03,964.20,Active
+CUST-1005,Ethan,Brooks,ethan.brooks@proton.me,206-555-0137,Seattle,WA,2025-06-18,Small Business,Email,2026-01-21,1742.00,Paused
+CUST-1006,Nora,Schneider,nora.schneider@gmx.de,312-555-0172,Chicago,IL,2023-12-02,Enterprise,Email,2026-05-19,11290.35,Active
+CUST-1007,Daniel,Kim,daniel.kim@fastmail.com,213-555-0161,Los Angeles,CA,2025-09-27,Retail,SMS,2026-02-14,672.45,Active
+CUST-1008,Isabella,Rossi,isabella.rossi@libero.it,646-555-0105,New York,NY,2024-05-31,Enterprise,Phone,2026-04-04,7398.10,Active
+CUST-1009,Noah,Wilson,noah.wilson@hey.com,303-555-0150,Denver,CO,2025-02-10,Small Business,Email,2026-05-24,2895.80,Active
+CUST-1010,Amara,Okafor,amara.okafor@gmail.com,404-555-0183,Atlanta,GA,2024-10-12,Retail,Email,2026-02-02,1450.00,Paused
+CUST-1011,Liam,O'Connor,liam.oconnor@outlook.ie,617-555-0118,Boston,MA,2025-04-08,Small Business,Phone,2026-05-01,3230.25,Active
+CUST-1012,Chloe,Dubois,chloe.dubois@orange.fr,512-555-0199,Austin,TX,2024-07-16,Retail,SMS,2026-03-11,810.70,Active
+CUST-1013,Marcus,Reed,marcus.reed@me.com,602-555-0121,Phoenix,AZ,2023-09-05,Enterprise,Email,2026-04-20,15340.60,Active
+CUST-1014,Hannah,Lee,hannah.lee@gmail.com,919-555-0145,Raleigh,NC,2025-08-29,Retail,Email,2026-01-09,520.30,Inactive
+CUST-1015,Diego,Hernandez,diego.hernandez@outlook.com,305-555-0187,Miami,FL,2024-02-24,Small Business,SMS,2026-05-15,3944.95,Active
+CUST-1016,Freya,Larsen,freya.larsen@icloud.com,612-555-0156,Minneapolis,MN,2025-11-02,Retail,Email,2026-04-17,1205.10,Active
+CUST-1017,Kenji,Tanaka,kenji.tanaka@yahoo.co.jp,808-555-0126,Honolulu,HI,2024-06-07,Enterprise,Phone,2026-03-26,9812.40,Active
+CUST-1018,Zoe,Anderson,zoe.anderson@proton.me,801-555-0132,Salt Lake City,UT,2025-05-19,Retail,SMS,2026-02-28,742.00,Active
+CUST-1019,Samira,Hassan,samira.hassan@gmail.com,313-555-0168,Detroit,MI,2023-11-21,Small Business,Email,2026-05-06,4580.55,Active
+CUST-1020,Owen,Clark,owen.clark@fastmail.com,816-555-0108,Kansas City,MO,2024-09-14,Retail,Email,2026-01-30,990.65,Inactive

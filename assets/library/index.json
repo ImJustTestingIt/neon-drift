@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "label": "Customer CSV",
+      "path": "assets/library/customer.csv",
+      "type": "text/csv",
+      "description": "Synthetic customer test data for imports and admin review."
+    },
+    {
+      "label": "HIPAA intake README",
+      "path": "assets/library/hipaa-health-intake-form/README.md",
+      "type": "text/markdown",
+      "description": "Setup and compliance-oriented hosting notes for the health intake form starter."
+    },
+    {
+      "label": "HIPAA intake env example",
+      "path": "assets/library/hipaa-health-intake-form/.env.example",
+      "type": "text/plain",
+      "description": "Environment variable template for the intake form starter."
+    }
+  ],
+  "source_note": "The original workspace library objects were unavailable as full LFS contents in this execution environment, so these checked-in assets provide usable repository copies and admin-panel links."
+}
