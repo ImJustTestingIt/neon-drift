@@ -2,21 +2,33 @@
   const config=window.NeonDriftAdminConfig||{};
   const game=()=>window.NeonDriftAdmin;
   const sessionKey="neon-drift-admin-unlocked";
+  const libraryFiles=[
+    {label:"Customer CSV",href:"assets/library/customer.csv",detail:"Synthetic customer test data"},
+    {label:"HIPAA intake README",href:"assets/library/hipaa-health-intake-form/README.md",detail:"Hosting and database setup notes"},
+    {label:"HIPAA env example",href:"assets/library/hipaa-health-intake-form/.env.example",detail:"Environment variable template"},
+    {label:"Library manifest",href:"assets/library/index.json",detail:"Machine-readable file list"}
+  ];
+
   const styles=document.createElement("style");
   styles.textContent=`
     .admin-trigger{position:fixed;right:14px;bottom:14px;z-index:20;width:42px;height:42px;border-radius:8px;border:1px solid rgba(0,245,255,.35);background:rgba(5,2,18,.62);color:#e7ff38;font-weight:950;box-shadow:0 0 22px rgba(0,245,255,.22);backdrop-filter:blur(16px);pointer-events:auto}
     .admin-shell{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:18px;background:rgba(2,1,10,.58);backdrop-filter:blur(10px);pointer-events:auto}
     .admin-shell[hidden],.admin-trigger[hidden]{display:none}
-    .admin-card{width:min(440px,100%);border:1px solid rgba(0,245,255,.36);border-radius:8px;background:linear-gradient(135deg,rgba(255,43,214,.18),rgba(0,245,255,.08)),rgba(6,3,20,.94);box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 42px rgba(124,60,255,.25);color:#f9f7ff;padding:20px}
+    .admin-card{width:min(520px,100%);max-height:calc(100vh - 36px);overflow:auto;border:1px solid rgba(0,245,255,.36);border-radius:8px;background:linear-gradient(135deg,rgba(255,43,214,.18),rgba(0,245,255,.08)),rgba(6,3,20,.94);box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 42px rgba(124,60,255,.25);color:#f9f7ff;padding:20px}
     .admin-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
     .admin-title{margin:0;font-size:18px;text-transform:uppercase;letter-spacing:.12em}
     .admin-close{width:34px;height:34px;padding:0;border-radius:8px;background:rgba(255,255,255,.05);color:#fff;box-shadow:none}
     .admin-grid{display:grid;gap:12px}
     .admin-row{display:grid;gap:7px}
-    .admin-row label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#a9b0ff}
+    .admin-row label,.admin-library-title{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#a9b0ff}
     .admin-row input,.admin-row select{width:100%;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(0,0,0,.24);color:#fff;padding:11px 12px;font:inherit}
     .admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
     .admin-actions button,.admin-login{padding:11px 12px;border-radius:8px}
+    .admin-library{display:grid;gap:8px;margin-top:4px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14)}
+    .admin-library a{display:grid;gap:2px;padding:10px 12px;border:1px solid rgba(0,245,255,.2);border-radius:8px;background:rgba(255,255,255,.04);color:#f9f7ff;text-decoration:none}
+    .admin-library a:hover{border-color:rgba(231,255,56,.5);box-shadow:0 0 18px rgba(231,255,56,.12)}
+    .admin-library b{font-size:13px}
+    .admin-library span{color:#a9b0ff;font-size:12px;line-height:1.35}
     .admin-status{min-height:20px;color:#e7ff38;font-size:12px;line-height:1.45}
     @media(max-width:520px){.admin-actions{grid-template-columns:1fr}.admin-trigger{right:10px;bottom:10px}}
   `;
@@ -29,6 +41,13 @@
   trigger.title="Admin";
   trigger.hidden=true;
   document.body.appendChild(trigger);
+
+  const libraryMarkup=libraryFiles.map(file=>`
+    <a href="${file.href}" target="_blank" rel="noopener" download>
+      <b>${file.label}</b>
+      <span>${file.detail}</span>
+    </a>
+  `).join("");
 
   const shell=document.createElement("div");
   shell.className="admin-shell";
@@ -69,6 +88,10 @@
           <button type="button" data-action="clear">Clear best</button>
           <button type="button" data-action="restart">Restart run</button>
           <button type="button" data-action="debug">Debug mode</button>
+        </div>
+        <div class="admin-library" aria-label="Library files">
+          <div class="admin-library-title">Library files</div>
+          ${libraryMarkup}
         </div>
         <div class="admin-status" data-status></div>
       </div>
